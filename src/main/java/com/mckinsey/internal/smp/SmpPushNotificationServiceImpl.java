@@ -55,7 +55,7 @@ public class SmpPushNotificationServiceImpl implements SmpPushNotificationServic
             String certificatePassword = System.getProperty(Constants.CERTIFICATE_PASSWORD_PARAM_NAME);
 
 
-            List<PushedNotification> notifications = Push.payload(payload, keystoreInputStream, certificatePassword, true, deviceTokens);
+            List<PushedNotification> notifications = Push.payload(payload, keystoreInputStream, certificatePassword, false, deviceTokens);
             for (PushedNotification notification : notifications) {
                 if (notification.isSuccessful()) {
                     /* Notification accepted by APNS */
