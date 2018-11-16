@@ -41,6 +41,9 @@ public class SmpPushNotificationServiceImpl implements SmpPushNotificationServic
         }
 
         PushNotificationPayload payload = PushNotificationPayload.complex();
+        payload.addBadge(1);
+        payload.addSound("default");
+        payload.setContentAvailable(false);
         payload.addCustomAlertBody(messageId);
         return this.sendNotifications(payload, tokenList);
     }
@@ -52,10 +55,10 @@ public class SmpPushNotificationServiceImpl implements SmpPushNotificationServic
             int count = 0;
             long startTime = System.nanoTime();
             InputStream keystoreInputStream = this.getClass().getClassLoader().getResourceAsStream(Constants.CERTIFICATE_FILE_PATH);
-            String certificatePassword = System.getProperty(Constants.CERTIFICATE_PASSWORD_PARAM_NAME);
+            String certificatePassword = Constants.CERTIFICATE_PASSWORD_PARAM_NAME;
 
 
-            List<PushedNotification> notifications = Push.payload(payload, keystoreInputStream, certificatePassword, false, deviceTokens);
+            List<PushedNotification> notifications = Push.payload(payload, keystoreInputStream, certificatePassword, true, deviceTokens);
             for (PushedNotification notification : notifications) {
                 if (notification.isSuccessful()) {
                     /* Notification accepted by APNS */
